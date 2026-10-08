@@ -1,2 +1,47 @@
+packages:
+  - .
+  - docs
+
 minimumReleaseAgeExclude:
   - vite@8.3.4
+
+catalogs:
+  # Nuxt and Vue: shared by the package (root) and the docs site
+  nuxt:
+    '@nuxt/kit': ^4.6.0
+    '@nuxt/schema': ^4.6.0
+    '@types/node': ^26.6.4
+    nuxt: ^4.6.0
+    typescript: ^6.0.3
+    vue: ^3.5.43
+
+  # What the published package depends on
+  runtime:
+    magic-string: ^1.4.3
+    unplugin: ^3.4.0
+    yaml: ^2.9.1
+
+  # Tools the package integrates with, installed for builds and tests
+  tooling:
+    '@vue/language-core': 3.3.12
+    eslint: ^10.12.0
+    eslint-plugin-better-tailwindcss: ^4.9.0
+    eslint-plugin-vue: ^10.11.1
+    tailwindcss: ^4.3.3
+    tsdown: ^0.23.0
+    unrun: ^0.3.1
+    vite: ^8.3.4
+    vitest: ^5.0.3
+    vue-eslint-parser: ^10.4.1
+    vue-tsc: ^3.3.12
+
+  docs:
+    better-sqlite3: ^12.11.1
+    docus: ^5.13.0
+
+allowBuilds:
+  '@parcel/watcher': true
+  better-sqlite3: true
+  esbuild: true
+  sharp: true
+  vue-demi: true

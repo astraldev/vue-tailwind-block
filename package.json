@@ -1,7 +1,7 @@
 {
   "name": "vue-tailwind-block",
   "version": "1.0.0",
-  "description": "",
+  "description": "Write the Tailwind classes of a Vue component as YAML in a <tailwind> block, with a Vite plugin, a Nuxt module, editor types and an ESLint processor.",
   "files": [
     "dist"
   ],
@@ -27,27 +27,27 @@
   "packageManager": "pnpm@12.10.1",
   "type": "module",
   "dependencies": {
-    "magic-string": "^1.4.3",
-    "unplugin": "^3.4.0",
-    "yaml": "^2.9.1"
+    "magic-string": "catalog:runtime",
+    "unplugin": "catalog:runtime",
+    "yaml": "catalog:runtime"
   },
   "devDependencies": {
-    "@nuxt/kit": "^4.6.0",
-    "@nuxt/schema": "^4.6.0",
-    "@types/node": "^26.6.4",
-    "@vue/language-core": "3.3.12",
-    "eslint": "^10.12.0",
-    "eslint-plugin-better-tailwindcss": "^4.9.0",
-    "eslint-plugin-vue": "^10.11.1",
-    "tailwindcss": "^4.3.3",
-    "tsdown": "^0.23.0",
-    "typescript": "^6.0.3",
-    "unrun": "^0.3.1",
-    "vite": "^8.3.4",
-    "vitest": "^5.0.3",
-    "vue": "^3.5.43",
-    "vue-eslint-parser": "^10.4.1",
-    "vue-tsc": "^3.3.12"
+    "@nuxt/kit": "catalog:nuxt",
+    "@nuxt/schema": "catalog:nuxt",
+    "@types/node": "catalog:nuxt",
+    "@vue/language-core": "catalog:tooling",
+    "eslint": "catalog:tooling",
+    "eslint-plugin-better-tailwindcss": "catalog:tooling",
+    "eslint-plugin-vue": "catalog:tooling",
+    "tailwindcss": "catalog:tooling",
+    "tsdown": "catalog:tooling",
+    "typescript": "catalog:nuxt",
+    "unrun": "catalog:tooling",
+    "vite": "catalog:tooling",
+    "vitest": "catalog:tooling",
+    "vue": "catalog:nuxt",
+    "vue-eslint-parser": "catalog:tooling",
+    "vue-tsc": "catalog:tooling"
   },
   "exports": {
     ".": "./dist/index.mjs",
