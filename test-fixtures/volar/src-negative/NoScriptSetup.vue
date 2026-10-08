@@ -1,0 +1,12 @@
+<script lang="ts">
+export default { name: 'NoScriptSetup' }
+</script>
+
+<template>
+  <div :class="[classes.base.root]" />
+</template>
+
+<tailwind lang="yaml">
+base:
+  root: x
+</tailwind>

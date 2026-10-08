@@ -1,0 +1,21 @@
+{
+  "name": "playground-v4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "pnpm --dir ../.. run build",
+    "prebuild": "pnpm --dir ../.. run build",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue": "^3.5.43",
+    "vue-tailwind-block": "link:../.."
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4"
+  }
+}

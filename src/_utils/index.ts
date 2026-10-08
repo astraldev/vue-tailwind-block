@@ -1,0 +1,7 @@
+export { buildClassTree } from './classes'
+export type { ClassTree } from './classes'
+export { YamlParseError } from './errors'
+export { isYamlFile } from './filter'
+export { normalizeScalarsToStrings } from './normalize'
+export { DEFAULT_VARIABLE_NAME } from './options'
+export type { TailwindBlockOptions } from './options'
