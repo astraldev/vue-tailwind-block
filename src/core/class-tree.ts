@@ -1,4 +1,10 @@
-/** Compiled `<tailwind>` block: groups of slots, each slot a merged class string. */
+/**
+ * A compiled `<tailwind>` block. Each key of the yaml becomes a key here: a list of class
+ * strings becomes one space separated string, and a nested mapping becomes a nested object.
+ * @example
+ * // root: [flex, p-4] and sizes: { sm: h-8 } compile to
+ * { root: 'flex p-4', sizes: { sm: 'h-8' } }
+ */
 export interface ClassTree {
   [name: string]: string | ClassTree
 }
@@ -55,6 +61,7 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+/** A yaml value that is not a class string, a list of class strings or a mapping. */
 export class InvalidClassValueError extends Error {
   constructor(pathToValue: string[], value: unknown) {
     const location = pathToValue.length > 0 ? pathToValue.join('.') : 'the top level'

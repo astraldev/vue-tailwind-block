@@ -13,6 +13,16 @@ declare module '@nuxt/schema' {
   }
 }
 
+/**
+ * Compiles `<tailwind>` blocks in Vite and webpack builds, and registers the Volar plugin in the
+ * tsconfig Nuxt generates, so the editor types the variable with no other setup. Options go
+ * under `tailwindBlock` in `nuxt.config.ts`.
+ * @example
+ * export default defineNuxtConfig({
+ *   modules: ['vue-tailwind-block/nuxt'],
+ *   tailwindBlock: { variableName: 'styles' },
+ * })
+ */
 export default defineNuxtModule<TailwindBlockOptions>({
   meta: {
     name: PackageConfig.name,

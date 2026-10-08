@@ -10,17 +10,23 @@ import { parseYaml } from './yaml'
 
 export interface CompileOptions {
   /**
-   * The block's `lang` attribute. `yaml`, `yml` and no lang compile, any other lang is a problem.
+   * The block's `lang` attribute. `'yaml'`, `'yml'` and `undefined` (no attribute) compile. Any
+   * other lang is reported as a problem covering the whole block.
    * @default undefined
    */
   lang?: string
 }
 
+/** Either the compiled block, or every problem that stopped it from compiling. Check `ok` first. */
 export type CompileResult = { ok: true; classTree: ClassTree } | { ok: false; problems: BlockProblem[] }
 
 /**
- * Compiles the yaml content of a `<tailwind>` block. Yaml problems are reported on their line,
- * invalid class values on the whole block.
+ * Compiles the content of a `<tailwind>` block, the text between its tags, into a class tree.
+ * Yaml syntax errors and warnings are reported on the line they occur on. A value that is not a
+ * class string, list or mapping is reported on the whole block, with its key path in the message.
+ * @example
+ * const result = compileBlock('root:\n  - flex\n  - p-4', { lang: 'yaml' })
+ * if (result.ok) result.classTree.root // 'flex p-4'
  */
 export function compileBlock(blockContent: string, options: CompileOptions = {}): CompileResult {
   if (!isSupportedBlockLang(options.lang)) {
@@ -48,7 +54,10 @@ export function compileBlock(blockContent: string, options: CompileOptions = {})
   }
 }
 
-/** For build tools, where a broken block should fail the build. */
+/**
+ * Same as `compileBlock`, for code where a broken block should stop the work, like a build.
+ * @throws {TailwindBlockError} when the block does not compile, carrying every problem.
+ */
 export function compileBlockOrThrow(blockContent: string, options: CompileOptions = {}): ClassTree {
   const result = compileBlock(blockContent, options)
 

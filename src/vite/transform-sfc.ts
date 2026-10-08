@@ -15,14 +15,20 @@ interface BlockRange {
 }
 
 export interface TransformedSfc {
+  /** The `.vue` source without its block, with the variable declared in `<script setup>`. */
   code: string
+  /** Maps the transformed code back to the original source. */
   map: SourceMap
 }
 
 /**
- * Replaces the `<tailwind lang="yaml">` block of a .vue file with a variable declared at the
- * top of `<script setup>` (created when missing). Returns undefined when there is no block.
- * Throws when the file has more than one block, since they would compete for the same variable.
+ * The transform the Vite plugin runs on each `.vue` file, for other build tools. Replaces the
+ * `<tailwind>` block with a variable declared at the top of `<script setup>`, and adds a
+ * `<script setup>` when the file has none.
+ * @returns `undefined` when the file has no block.
+ * @throws {TailwindBlockError} when the block does not compile.
+ * @throws {Error} when the file has more than one block, because both would declare the same
+ * variable.
  */
 export function transformSfc(
   sfcSource: string,

@@ -11,9 +11,10 @@ export const VIRTUAL_FILE_NAME = 'tailwind-block.js'
 
 export interface TailwindBlockEslintOptions {
   /**
-   * Rules whose messages are reported on tailwind blocks: rule ids, or patterns tested against
-   * them. The block is turned into plain js, so other rules (quotes, semi, ...) would only add
-   * noise. Default: every rule with "tailwind" in its name.
+   * Rules whose messages are reported on `<tailwind>` blocks, as rule ids or patterns tested
+   * against them. Each block is linted as generated js, so other rules (`quotes`, `semi`, ...)
+   * would report on code nobody wrote. Parse errors are always reported.
+   * @default [/tailwind/i]
    */
   rules?: (string | RegExp)[]
 }
@@ -27,10 +28,14 @@ interface ProcessedFile {
   virtualBlocks: VirtualBlock[]
 }
 
+// flat config allows one processor per file, so this one wraps another (eslint-plugin-vue's) and
+// hands it the blocks it expects. Without that, vue rules that rely on their processor, like
+// comment directives, report stray errors.
 /**
- * Flat config allows one processor per file, so this one wraps another (eslint-plugin-vue's) and
- * hands it the blocks it expects. Without that, vue rules that rely on their processor, like
- * comment directives, report stray errors.
+ * The processor behind `createConfig`, for setups that build their own config. Lints each
+ * `<tailwind>` block as js and maps the messages back onto the yaml.
+ * @param innerProcessor The processor `.vue` files used before, usually eslint-plugin-vue's.
+ * It keeps running on the rest of the file.
  */
 export function createProcessor(innerProcessor?: Linter.Processor, options: TailwindBlockEslintOptions = {}): Linter.Processor {
   const processedFiles = new Map<string, ProcessedFile>()

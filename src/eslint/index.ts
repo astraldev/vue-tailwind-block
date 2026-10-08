@@ -25,10 +25,16 @@ function createPlugin(options?: TailwindBlockEslintOptions): ESLint.Plugin {
 }
 
 /**
- * Hands the yaml of every `<tailwind>` block to the class sorting rules as `clsx("...")` calls.
- * Add a sorting plugin such as eslint-plugin-better-tailwindcss after it. Its default callees
- * already include clsx, so its rules lint the blocks without any option.
- * Place it after eslint-plugin-vue's config, because the last processor set for .vue files wins.
+ * Flat config that lets Tailwind lint rules check `<tailwind>` blocks: each yaml entry is linted
+ * as a `clsx("...")` call, and reports and fixes land back on the yaml. Pair it with a Tailwind
+ * rule plugin such as eslint-plugin-better-tailwindcss, whose default callees include `clsx`.
+ * Spread it after eslint-plugin-vue's config, because the last processor set for `.vue` wins.
+ * @example
+ * export default [
+ *   ...pluginVue.configs['flat/essential'],
+ *   ...tailwindBlock.createConfig({ rules: [/tailwind/, 'quotes'] }),
+ *   betterTailwindcss.configs.stylistic,
+ * ]
  */
 function createConfig(options?: TailwindBlockEslintOptions): Linter.Config[] {
   return [
@@ -47,7 +53,10 @@ function createConfig(options?: TailwindBlockEslintOptions): Linter.Config[] {
 }
 
 interface TailwindBlockPlugin extends ESLint.Plugin {
-  configs: { recommended: Linter.Config[] }
+  configs: {
+    /** `createConfig()` with the default options. */
+    recommended: Linter.Config[]
+  }
   createConfig: (options?: TailwindBlockEslintOptions) => Linter.Config[]
 }
 
