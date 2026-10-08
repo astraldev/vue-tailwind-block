@@ -19,7 +19,7 @@ function toText(generatedCode: Code[]): string {
 }
 
 function inject(generatedCode: Code[]): string {
-  injectTailwindBlock({ generatedCode, tailwindBlock, isTypeScript: true, options: { variableName: 'styles' } })
+  injectTailwindBlock({ generatedCode, tailwindBlock, isTypeScript: true, options: { binding: 'styles' } })
   return toText(generatedCode)
 }
 

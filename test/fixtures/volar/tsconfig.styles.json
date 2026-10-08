@@ -15,7 +15,7 @@
     "plugins": [
       {
         "name": "../../../dist/volar.cjs",
-        "variableName": "styles"
+        "binding": "styles"
       }
     ]
   }

@@ -50,8 +50,8 @@ export function transformSfc(
   }
 
   const [tailwindBlock] = tailwindBlocks
-  const { variableName } = resolveOptions(options)
-  const declaration = declareClasses(variableName, compileBlockOrThrow(tailwindBlock.content, { lang: readBlockLang(tailwindBlock) }))
+  const { binding } = resolveOptions(options)
+  const declaration = declareClasses(binding, compileBlockOrThrow(tailwindBlock.content, { lang: readBlockLang(tailwindBlock) }))
   const blockRange = findBlockRange(sfcSource, tailwindBlock)
   const editableSource = new MagicString(sfcSource)
 

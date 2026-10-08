@@ -20,7 +20,7 @@ declare module '@nuxt/schema' {
  * @example
  * export default defineNuxtConfig({
  *   modules: ['vue-tailwind-block/nuxt'],
- *   tailwindBlock: { variableName: 'styles' },
+ *   tailwindBlock: { binding: 'styles' },
  * })
  */
 export default defineNuxtModule<TailwindBlockOptions>({

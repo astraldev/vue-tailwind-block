@@ -25,7 +25,7 @@ describe('transformSfc', () => {
   })
 
   it('uses the configured variable name', () => {
-    const transformed = transformSfc(tailwindBlock, { variableName: 'styles' })?.code
+    const transformed = transformSfc(tailwindBlock, { binding: 'styles' })?.code
 
     expect(transformed).toContain('const styles = {"base"')
   })

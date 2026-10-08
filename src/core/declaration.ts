@@ -3,8 +3,8 @@ import type { ClassTree } from './class-tree'
 const IDENTIFIER = /^[A-Za-z_$][\w$]*$/
 
 /** The statement the build puts at the top of `<script setup>`. */
-export function declareClasses(variableName: string, classTree: ClassTree): string {
-  return `const ${variableName} = ${JSON.stringify(classTree)};`
+export function declareClasses(binding: string, classTree: ClassTree): string {
+  return `const ${binding} = ${JSON.stringify(classTree)};`
 }
 
 /**
@@ -12,8 +12,8 @@ export function declareClasses(variableName: string, classTree: ClassTree): stri
  * shows only its keys, and each key carries its classes as JSDoc, which a hover over that key
  * shows. The keys stay exact, so a misspelled one is still an error.
  */
-export function declareClassesType(variableName: string, classTree: ClassTree): string {
-  return `const ${variableName} = {} as ${buildTypeLiteral(classTree, '')};`
+export function declareClassesType(binding: string, classTree: ClassTree): string {
+  return `const ${binding} = {} as ${buildTypeLiteral(classTree, '')};`
 }
 
 function buildTypeLiteral(classTree: ClassTree, indentation: string): string {

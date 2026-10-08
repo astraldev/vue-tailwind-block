@@ -5,10 +5,10 @@ describe('addVolarPlugin', () => {
   it('registers the volar plugin with the options, creating the vue compiler options', () => {
     const tsConfig = {}
 
-    addVolarPlugin(tsConfig, { variableName: 'styles' })
+    addVolarPlugin(tsConfig, { binding: 'styles' })
 
     expect(tsConfig).toEqual({
-      vueCompilerOptions: { plugins: [{ name: 'vue-tailwind-block/volar', variableName: 'styles' }] },
+      vueCompilerOptions: { plugins: [{ name: 'vue-tailwind-block/volar', binding: 'styles' }] },
     })
   })
 

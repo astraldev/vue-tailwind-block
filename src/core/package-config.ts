@@ -5,6 +5,6 @@ export const PackageConfig = {
   blockType: 'tailwind',
   /** Values the block's `lang` attribute may take. A block without `lang` is read as yaml. */
   blockLangs: ['yaml', 'yml'],
-  /** Name of the compiled variable when `variableName` is not set. */
-  defaultVariableName: 'classes',
+  /** Binding the compiled block is exposed as when `binding` is not set. */
+  defaultBinding: 'classes',
 }

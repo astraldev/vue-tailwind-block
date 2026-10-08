@@ -8,9 +8,9 @@ export interface TailwindBlockOptions {
    * never declares. The Nuxt module passes it to both.
    * @default 'classes'
    */
-  variableName?: string
+  binding?: string
 }
 
 export function resolveOptions(options: TailwindBlockOptions = {}): Required<TailwindBlockOptions> {
-  return { variableName: options.variableName ?? PackageConfig.defaultVariableName }
+  return { binding: options.binding ?? PackageConfig.defaultBinding }
 }
