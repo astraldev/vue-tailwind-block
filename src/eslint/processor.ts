@@ -1,7 +1,7 @@
 import type { Linter } from 'eslint'
 import { parse } from 'vue/compiler-sfc'
 import { findTailwindBlocks, mayContainTailwindBlock } from '~/core/blocks'
-import { PACKAGE_NAME } from '~/core/constants'
+import { PackageConfig } from '~/core/package-config'
 import { mapBlockMessages } from './map-messages'
 import { buildVirtualBlock } from './virtual-block'
 import type { VirtualBlock } from './virtual-block'
@@ -37,7 +37,7 @@ export function createProcessor(innerProcessor?: Linter.Processor, options: Tail
   const reportedRules = options.rules ?? DEFAULT_REPORTED_RULES
 
   return {
-    meta: { name: `${PACKAGE_NAME}/tailwind-block` },
+    meta: { name: `${PackageConfig.name}/tailwind-block` },
     supportsAutofix: innerProcessor?.supportsAutofix ?? true,
 
     preprocess(sourceText, filename) {

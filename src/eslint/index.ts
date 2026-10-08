@@ -1,5 +1,5 @@
 import type { ESLint, Linter } from 'eslint'
-import { PACKAGE_NAME } from '~/core/constants'
+import { PackageConfig } from '~/core/package-config'
 import { createProcessor, VIRTUAL_FILE_NAME } from './processor'
 import type { TailwindBlockEslintOptions } from './processor'
 
@@ -19,7 +19,7 @@ const vueProcessor = await loadVueProcessor()
 
 function createPlugin(options?: TailwindBlockEslintOptions): ESLint.Plugin {
   return {
-    meta: { name: PACKAGE_NAME },
+    meta: { name: PackageConfig.name },
     processors: { [PLUGIN_NAME]: createProcessor(vueProcessor, options) },
   }
 }
@@ -33,13 +33,13 @@ function createPlugin(options?: TailwindBlockEslintOptions): ESLint.Plugin {
 function createConfig(options?: TailwindBlockEslintOptions): Linter.Config[] {
   return [
     {
-      name: `${PACKAGE_NAME}/processor`,
+      name: `${PackageConfig.name}/processor`,
       files: ['**/*.vue'],
       plugins: { [PLUGIN_NAME]: createPlugin(options) },
       processor: `${PLUGIN_NAME}/${PLUGIN_NAME}`,
     },
     {
-      name: `${PACKAGE_NAME}/virtual-files`,
+      name: `${PackageConfig.name}/virtual-files`,
       files: [`**/*.vue/*_${VIRTUAL_FILE_NAME}`],
       languageOptions: { ecmaVersion: 'latest', sourceType: 'module' },
     },

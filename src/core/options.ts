@@ -1,4 +1,4 @@
-import { DEFAULT_VARIABLE_NAME } from './constants'
+import { PackageConfig } from './package-config'
 
 export interface TailwindBlockOptions {
   /** Name of the variable the compiled block is exposed as. Default: `classes` */
@@ -6,5 +6,5 @@ export interface TailwindBlockOptions {
 }
 
 export function resolveOptions(options: TailwindBlockOptions = {}): Required<TailwindBlockOptions> {
-  return { variableName: options.variableName ?? DEFAULT_VARIABLE_NAME }
+  return { variableName: options.variableName ?? PackageConfig.defaultVariableName }
 }

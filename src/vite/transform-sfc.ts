@@ -4,7 +4,7 @@ import { parse } from 'vue/compiler-sfc'
 import type { SFCBlock, SFCScriptBlock } from 'vue/compiler-sfc'
 import { findTailwindBlocks, mayContainTailwindBlock } from '~/core/blocks'
 import { compileBlockOrThrow } from '~/core/compile'
-import { BLOCK_TYPE } from '~/core/constants'
+import { PackageConfig } from '~/core/package-config'
 import { declareClasses } from '~/core/declaration'
 import { resolveOptions } from '~/core/options'
 import type { TailwindBlockOptions } from '~/core/options'
@@ -40,7 +40,7 @@ export function transformSfc(
   }
 
   if (tailwindBlocks.length > 1) {
-    throw new Error(`Expected one <${BLOCK_TYPE}> block per file, found ${tailwindBlocks.length}`)
+    throw new Error(`Expected one <${PackageConfig.blockType}> block per file, found ${tailwindBlocks.length}`)
   }
 
   const [tailwindBlock] = tailwindBlocks
@@ -60,8 +60,8 @@ export function transformSfc(
 
 /** The block's content range is known, so walk outwards to the surrounding tags. */
 function findBlockRange(sfcSource: string, tailwindBlock: SFCBlock): BlockRange {
-  const openingTagStart = sfcSource.lastIndexOf(`<${BLOCK_TYPE}`, tailwindBlock.loc.start.offset)
-  const closingTagStart = sfcSource.indexOf(`</${BLOCK_TYPE}`, tailwindBlock.loc.end.offset)
+  const openingTagStart = sfcSource.lastIndexOf(`<${PackageConfig.blockType}`, tailwindBlock.loc.start.offset)
+  const closingTagStart = sfcSource.indexOf(`</${PackageConfig.blockType}`, tailwindBlock.loc.end.offset)
   const closingTagEnd = sfcSource.indexOf('>', closingTagStart) + 1
 
   return { start: openingTagStart, end: closingTagEnd }

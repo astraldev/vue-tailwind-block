@@ -1,5 +1,5 @@
 import { addVitePlugin, addWebpackPlugin, defineNuxtModule } from '@nuxt/kit'
-import { PACKAGE_NAME } from '~/core/constants'
+import { PackageConfig } from '~/core/package-config'
 import type { TailwindBlockOptions } from '~/core/options'
 import { unplugin } from '~/vite/unplugin'
 import { addVolarPlugin } from './volar-config'
@@ -15,7 +15,7 @@ declare module '@nuxt/schema' {
 
 export default defineNuxtModule<TailwindBlockOptions>({
   meta: {
-    name: PACKAGE_NAME,
+    name: PackageConfig.name,
     configKey: 'tailwindBlock',
     compatibility: { nuxt: '>=3.10.0' },
   },

@@ -1,6 +1,6 @@
 import type { VueLanguagePlugin } from '@vue/language-core'
 import { findTailwindBlocks } from '~/core/blocks'
-import { PACKAGE_NAME } from '~/core/constants'
+import { PackageConfig } from '~/core/package-config'
 import type { TailwindBlockOptions } from '~/core/options'
 import { injectTailwindBlock } from './inject'
 
@@ -16,7 +16,7 @@ const SERVICE_SCRIPT = /^script_(?:js|jsx|ts|tsx)$/
  */
 const tailwindBlockPlugin: VueLanguagePlugin<TailwindBlockOptions> = ({ config }) => ({
   version: 2.2,
-  name: PACKAGE_NAME,
+  name: PackageConfig.name,
   resolveEmbeddedCode(_fileName, ir, embeddedFile) {
     const [tailwindBlock] = findTailwindBlocks(ir.customBlocks)
 
