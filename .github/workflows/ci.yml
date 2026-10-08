@@ -22,7 +22,7 @@ jobs:
       - uses: pnpm/action-setup@v6
 
       - name: Install dependencies
-        run: CI=true npx nypm@latest i
+        run: pnpm install --frozen-lockfile
 
       - name: Typecheck
         run: pnpm typecheck
@@ -40,7 +40,7 @@ jobs:
       - uses: pnpm/action-setup@v6
 
       - name: Install dependencies
-        run: CI=true npx nypm@latest i
+        run: pnpm install --frozen-lockfile
 
       - name: Test
         run: pnpm test

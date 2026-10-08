@@ -1,7 +1,7 @@
 {
   "name": "vue-tailwind-block",
   "version": "1.0.0",
-  "description": "Write the Tailwind classes of a Vue component as YAML in a <tailwind> block, with a Vite plugin, a Nuxt module, editor types and an ESLint processor.",
+  "description": "Keep long Tailwind utility classes out of your Vue templates with a typed <tailwind> YAML block for Vite and Nuxt.",
   "files": [
     "dist"
   ],
