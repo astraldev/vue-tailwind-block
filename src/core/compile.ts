@@ -33,7 +33,6 @@ export function compileBlock(blockContent: string, options: CompileOptions = {})
     return { ok: false, problems: [{ message: describeUnsupportedLang(options.lang), start: 0, end: blockContent.length }] }
   }
 
-  // normalizing keeps every line where it was, so yaml line numbers hold for the block content
   const { value, problems } = parseYaml(normalizeScalarsToStrings(blockContent))
 
   if (problems.length > 0) {

@@ -91,7 +91,6 @@ function findBlockContents(sourceText: string): { content: string; contentStart:
     return []
   }
 
-  // a block in another lang is not yaml, so its entries cannot be mapped back reliably
   return findTailwindBlocks(parse(sourceText).descriptor.customBlocks)
     .filter((block) => isSupportedBlockLang(readBlockLang(block)))
     .map((block) => ({ content: block.content, contentStart: block.loc.start.offset }))
