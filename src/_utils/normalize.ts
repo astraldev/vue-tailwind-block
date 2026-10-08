@@ -1,7 +1,16 @@
 const LIST_ITEM_LINE = /^(\s*-\s+)(.*)$/
 const MAPPING_VALUE_LINE = /^(\s*(?:"[^"]*"|'[^']*'|[^\s"'#:-][^:]*?):\s+)(.*)$/
 const BLOCK_SCALAR_INDICATOR = /^[|>][+-]?\d*[+-]?(\s+#.*)?$/
+const QUOTED_SCALAR = /^(["'])(.*?)\1(?:\s+#.*)?$/
 const COMMENT_START = /(^|\s)#/
+
+export interface ScalarLine {
+  /** Zero based index of the line in the yaml source. */
+  lineIndex: number
+  /** Everything before the scalar: indentation, list dash or key. */
+  prefix: string
+  rawScalar: string
+}
 
 /**
  * Wraps every list entry and mapping value in double quotes before the text reaches a
@@ -9,30 +18,58 @@ const COMMENT_START = /(^|\s)#/
  * part of the string. Only ` #` still starts a comment.
  */
 export function normalizeScalarsToStrings(yamlSource: string): string {
-  const normalizedLines: string[] = []
-  let blockScalarParentIndent: number | null = null
+  const scalarLinesByIndex = new Map(findScalarLines(yamlSource).map((scalarLine) => [scalarLine.lineIndex, scalarLine]))
 
-  for (const line of yamlSource.split(/\r?\n/)) {
-    if (blockScalarParentIndent !== null && isInsideBlockScalar(line, blockScalarParentIndent)) {
-      normalizedLines.push(line)
-      continue
-    }
-
-    blockScalarParentIndent = startsBlockScalar(line) ? indentationOf(line) : null
-    normalizedLines.push(normalizeLine(line))
-  }
-
-  return normalizedLines.join('\n')
+  return splitLines(yamlSource)
+    .map((line, lineIndex) => {
+      const scalarLine = scalarLinesByIndex.get(lineIndex)
+      return scalarLine === undefined ? line : scalarLine.prefix + quoteScalar(scalarLine.rawScalar)
+    })
+    .join('\n')
 }
 
-function normalizeLine(line: string): string {
-  const scalarLine = splitScalarLine(line)
+/** List entries and mapping values, skipping the content and indicator lines of block scalars. */
+export function findScalarLines(yamlSource: string): ScalarLine[] {
+  const scalarLines: ScalarLine[] = []
+  let blockScalarParentIndent: number | null = null
 
-  if (scalarLine === null) {
-    return line
+  splitLines(yamlSource).forEach((line, lineIndex) => {
+    if (blockScalarParentIndent !== null && isInsideBlockScalar(line, blockScalarParentIndent)) {
+      return
+    }
+
+    const scalarLine = splitScalarLine(line)
+    const startsBlockScalar = scalarLine !== null && BLOCK_SCALAR_INDICATOR.test(scalarLine.rawScalar)
+
+    blockScalarParentIndent = startsBlockScalar ? indentationOf(line) : null
+
+    if (scalarLine !== null && !startsBlockScalar) {
+      scalarLines.push({ lineIndex, ...scalarLine })
+    }
+  })
+
+  return scalarLines
+}
+
+/** The class text of a scalar without its quotes and trailing comment, and where it starts inside the scalar. */
+export function locateEntryText(rawScalar: string): { text: string; offset: number } | undefined {
+  const quotedScalar = QUOTED_SCALAR.exec(rawScalar)
+
+  if (quotedScalar !== null) {
+    return { text: quotedScalar[2], offset: 1 }
   }
 
-  return scalarLine.prefix + quoteScalar(scalarLine.rawScalar)
+  const { valueText } = splitTrailingComment(rawScalar)
+
+  if (isQuoted(rawScalar) || valueText === '') {
+    return undefined
+  }
+
+  return { text: valueText, offset: 0 }
+}
+
+function splitLines(yamlSource: string): string[] {
+  return yamlSource.split(/\r?\n/)
 }
 
 function splitScalarLine(line: string): { prefix: string; rawScalar: string } | null {
@@ -71,11 +108,6 @@ function splitTrailingComment(rawScalar: string): { valueText: string; trailingC
     valueText: rawScalar.slice(0, commentStart).trimEnd(),
     trailingComment: ' ' + rawScalar.slice(commentStart).trimStart(),
   }
-}
-
-function startsBlockScalar(line: string): boolean {
-  const scalarLine = splitScalarLine(line)
-  return scalarLine !== null && BLOCK_SCALAR_INDICATOR.test(scalarLine.rawScalar)
 }
 
 function isInsideBlockScalar(line: string, parentIndent: number): boolean {

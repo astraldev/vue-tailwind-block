@@ -32,16 +32,22 @@
   "devDependencies": {
     "@types/node": "^26.6.4",
     "@vue/language-core": "3.3.12",
+    "eslint": "^10.12.0",
+    "eslint-plugin-better-tailwindcss": "^4.9.0",
+    "eslint-plugin-vue": "^10.11.1",
+    "tailwindcss": "^4.3.3",
     "tsdown": "^0.23.0",
     "typescript": "^6.0.3",
     "unrun": "^0.3.1",
     "vite": "^8.3.4",
     "vitest": "^5.0.3",
     "vue": "^3.5.43",
+    "vue-eslint-parser": "^10.4.1",
     "vue-tsc": "^3.3.12"
   },
   "exports": {
     ".": "./dist/index.mjs",
+    "./eslint": "./dist/eslint.mjs",
     "./nuxt": "./dist/nuxt.mjs",
     "./vite": "./dist/vite.mjs",
     "./package.json": "./package.json",
@@ -51,10 +57,12 @@
     }
   },
   "peerDependencies": {
+    "eslint": "^9.0.0 || ^10.0.0",
     "typescript": "^6.0.0",
     "vite": "^8.0.0",
     "vue": "^3.3.0 || ^3.6.0-0",
-    "vue-tsc": "^3.2.0"
+    "vue-tsc": "^3.2.0",
+    "eslint-plugin-vue": "^9.0.0 || ^10.0.0"
   },
   "peerDependenciesMeta": {
     "typescript": {
@@ -67,6 +75,12 @@
       "optional": true
     },
     "vue-tsc": {
+      "optional": true
+    },
+    "eslint": {
+      "optional": true
+    },
+    "eslint-plugin-vue": {
       "optional": true
     }
   }
