@@ -10,6 +10,6 @@
   },
   "include": ["src/**/*.vue"],
   "vueCompilerOptions": {
-    "plugins": [{ "name": "../../dist/volar.cjs" }]
+    "plugins": [{ "name": "../../../dist/volar.cjs" }]
   }
 }

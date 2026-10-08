@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 import { compileBlockOrThrow } from '~/core'
 import tailwindBlock from '~/eslint'
 
-const fixtureDirectory = fileURLToPath(new URL('../../../test-fixtures/eslint', import.meta.url))
+const fixtureDirectory = fileURLToPath(new URL('../fixtures/eslint', import.meta.url))
 
 const unsortedFile = [
   '<template><div /></template>',

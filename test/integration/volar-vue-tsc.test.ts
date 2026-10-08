@@ -2,7 +2,7 @@ import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 
-const fixtureDirectory = fileURLToPath(new URL('../../../test-fixtures/volar', import.meta.url))
+const fixtureDirectory = fileURLToPath(new URL('../fixtures/volar', import.meta.url))
 
 /** Runs the real vue-tsc against dist, so `pnpm build` must have run (the pretest script does). */
 function typecheckFixture(tsconfigName: string): { exitCode: number | null; output: string } {
@@ -31,4 +31,4 @@ describe('volar plugin through vue-tsc', () => {
     expect(output).toContain('Broken.vue(11,1)')
     expect(output).not.toContain('NoScriptSetup.vue')
   })
-}, 120_000)
+})

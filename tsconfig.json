@@ -16,6 +16,7 @@
   },
   "include": [
     "src",
+    "test/**/*.ts",
     "tsdown.config.ts",
     "vitest.config.ts"
   ]

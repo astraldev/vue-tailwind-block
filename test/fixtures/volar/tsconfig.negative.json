@@ -9,13 +9,12 @@
     "jsx": "preserve"
   },
   "include": [
-    "src-styles/**/*.vue"
+    "src-negative/**/*.vue"
   ],
   "vueCompilerOptions": {
     "plugins": [
       {
-        "name": "../../dist/volar.cjs",
-        "variableName": "styles"
+        "name": "../../../dist/volar.cjs"
       }
     ]
   }
