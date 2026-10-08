@@ -38,6 +38,16 @@ describe('transformSfc', () => {
     expect(map.mappings.length).toBeGreaterThan(0)
   })
 
+  it('compiles a block written with lang="yml"', () => {
+    const transformed = transformSfc(tailwindBlock.replace('lang="yaml"', 'lang="yml"'))?.code
+
+    expect(transformed).toContain(compiledClasses)
+  })
+
+  it('throws on a block in a lang other than yaml', () => {
+    expect(() => transformSfc(tailwindBlock.replace('lang="yaml"', 'lang="json"'))).toThrow('got "json"')
+  })
+
   it('throws when the file has more than one tailwind block', () => {
     const source = `${tailwindBlock}\n${tailwindBlock}`
 

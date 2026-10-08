@@ -1,4 +1,5 @@
 import type { Code, IRCustomBlock, VueCodeInformation } from '@vue/language-core'
+import { readBlockLang } from '~/core/blocks'
 import { compileBlock } from '~/core/compile'
 import type { CompileResult } from '~/core/compile'
 import { PackageConfig } from '~/core/package-config'
@@ -30,7 +31,7 @@ const VERIFICATION_FEATURES: VueCodeInformation = { verification: true }
 export function injectTailwindBlock(target: InjectionTarget): void {
   const { generatedCode, tailwindBlock, isTypeScript } = target
   const { variableName } = resolveOptions(target.options)
-  const compiled = compileBlock(tailwindBlock.content)
+  const compiled = compileBlock(tailwindBlock.content, { lang: readBlockLang(tailwindBlock) })
   const blockProblems = compiled.ok ? [] : compiled.problems
 
   insertBeforeUserScript(generatedCode, buildDeclaration(compiled, variableName, isTypeScript))

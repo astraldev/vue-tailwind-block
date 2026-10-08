@@ -2,7 +2,7 @@ import MagicString from 'magic-string'
 import type { SourceMap } from 'magic-string'
 import { parse } from 'vue/compiler-sfc'
 import type { SFCBlock, SFCScriptBlock } from 'vue/compiler-sfc'
-import { findTailwindBlocks, mayContainTailwindBlock } from '~/core/blocks'
+import { findTailwindBlocks, mayContainTailwindBlock, readBlockLang } from '~/core/blocks'
 import { compileBlockOrThrow } from '~/core/compile'
 import { PackageConfig } from '~/core/package-config'
 import { declareClasses } from '~/core/declaration'
@@ -45,7 +45,7 @@ export function transformSfc(
 
   const [tailwindBlock] = tailwindBlocks
   const { variableName } = resolveOptions(options)
-  const declaration = declareClasses(variableName, compileBlockOrThrow(tailwindBlock.content))
+  const declaration = declareClasses(variableName, compileBlockOrThrow(tailwindBlock.content, { lang: readBlockLang(tailwindBlock) }))
   const blockRange = findBlockRange(sfcSource, tailwindBlock)
   const editableSource = new MagicString(sfcSource)
 

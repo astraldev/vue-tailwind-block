@@ -1,6 +1,6 @@
 import type { Linter } from 'eslint'
 import { parse } from 'vue/compiler-sfc'
-import { findTailwindBlocks, mayContainTailwindBlock } from '~/core/blocks'
+import { findTailwindBlocks, isSupportedBlockLang, mayContainTailwindBlock, readBlockLang } from '~/core/blocks'
 import { PackageConfig } from '~/core/package-config'
 import { mapBlockMessages } from './map-messages'
 import { buildVirtualBlock } from './virtual-block'
@@ -86,5 +86,8 @@ function findBlockContents(sourceText: string): { content: string; contentStart:
     return []
   }
 
-  return findTailwindBlocks(parse(sourceText).descriptor.customBlocks).map((block) => ({ content: block.content, contentStart: block.loc.start.offset }))
+  // a block in another lang is not yaml, so its entries cannot be mapped back reliably
+  return findTailwindBlocks(parse(sourceText).descriptor.customBlocks)
+    .filter((block) => isSupportedBlockLang(readBlockLang(block)))
+    .map((block) => ({ content: block.content, contentStart: block.loc.start.offset }))
 }

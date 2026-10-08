@@ -29,6 +29,19 @@ describe('compileBlock', () => {
   })
 })
 
+describe('block lang', () => {
+  it.each([undefined, 'yaml', 'yml'])('compiles a block with lang %s', (lang) => {
+    expect(compileBlock('root: flex', { lang })).toMatchObject({ ok: true })
+  })
+
+  it('reports any other lang on the whole block', () => {
+    const result = compileBlock('root: flex', { lang: 'json' })
+
+    expect(result).toMatchObject({ ok: false, problems: [{ start: 0, end: 10 }] })
+    expect(!result.ok && result.problems[0].message).toContain('got "json"')
+  })
+})
+
 describe('compileBlockOrThrow', () => {
   it('throws a TailwindBlockError carrying the problems', () => {
     expect(() => compileBlockOrThrow('a: 1\na: 2')).toThrow(TailwindBlockError)

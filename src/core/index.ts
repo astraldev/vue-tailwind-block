@@ -1,5 +1,5 @@
 export { compileBlock, compileBlockOrThrow } from './compile'
-export type { CompileResult } from './compile'
+export type { CompileOptions, CompileResult } from './compile'
 export { TailwindBlockError } from './errors'
 export type { BlockProblem } from './errors'
 export type { ClassTree } from './class-tree'

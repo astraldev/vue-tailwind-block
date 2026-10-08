@@ -15,7 +15,7 @@ function typecheckFixture(tsconfigName: string): { exitCode: number | null; outp
 }
 
 describe('volar plugin through vue-tsc', () => {
-  it('types the variable in script and template with no errors', () => {
+  it('types the variable in script and template with no errors, for lang yaml and yml', () => {
     expect(typecheckFixture('tsconfig.json')).toMatchObject({ exitCode: 0 })
   })
 
@@ -30,5 +30,6 @@ describe('volar plugin through vue-tsc', () => {
     expect(output).toContain("Property 'nothing' does not exist")
     expect(output).toContain('Broken.vue(11,1)')
     expect(output).not.toContain('NoScriptSetup.vue')
+    expect(output).toMatch(/JsonLang\.vue\(8,\d+\).*got \\"json\\"/)
   })
 })
