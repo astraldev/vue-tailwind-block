@@ -3,7 +3,7 @@ import { readBlockLang } from '~/core/blocks'
 import { compileBlock } from '~/core/compile'
 import type { CompileResult } from '~/core/compile'
 import { PackageConfig } from '~/core/package-config'
-import { declareClasses } from '~/core/declaration'
+import { declareClassesType } from '~/core/declaration'
 import type { BlockProblem } from '~/core/errors'
 import { resolveOptions } from '~/core/options'
 import type { TailwindBlockOptions } from '~/core/options'
@@ -61,7 +61,7 @@ function buildDeclaration(compiled: CompileResult, variableName: string, isTypeS
     return `const ${variableName}: any = undefined;\n`
   }
 
-  return declareClasses(variableName, compiled.classTree, { asConst: true }) + '\n'
+  return declareClassesType(variableName, compiled.classTree) + '\n'
 }
 
 /** Declared first so top level script code can read it, and without a script setup it goes before the template context. */

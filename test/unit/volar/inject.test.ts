@@ -27,7 +27,7 @@ describe('injectTailwindBlock', () => {
   it('declares the variable and wraps the template context with it', () => {
     const generated = inject(['const __VLS_ctx = ', '{} as Instance', ';\n'])
 
-    expect(generated).toContain('const styles = {"base":{"root":"x"}} as const;')
+    expect(generated).toContain("const styles = {} as {\n  base: {\n    /** x */\n    root: string")
     expect(generated).toContain('const __VLS_ctx = __tailwindBlockContext({} as Instance, { styles });')
   })
 
