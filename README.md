@@ -68,12 +68,11 @@ Works with Tailwind CSS v3 and v4. With v3, include your `.vue` files in
 
 ## Documentation
 
-The docs live in [`docs/`](docs). Run `pnpm docs:dev` to read them
-locally.
+Visit the documentation at [vue-tailwind-block.netlify.app](https://vue-tailwind-block.netlify.app). You can also run `pnpm docs:dev` to read them locally.
 
-- [Introduction](docs/content/1.getting-started/1.introduction.md)
-- [Installation](docs/content/1.getting-started/2.installation.md)
-- [Writing blocks](docs/content/2.guide/1.writing-blocks.md)
-- [Type checking](docs/content/2.guide/2.type-checking.md)
-- [Linting](docs/content/2.guide/3.linting.md)
-- [Core API](docs/content/3.api/1.core.md)
+- [Introduction](https://vue-tailwind-block.netlify.app/getting-started/introduction)
+- [Installation](https://vue-tailwind-block.netlify.app/getting-started/installation)
+- [Writing blocks](https://vue-tailwind-block.netlify.app/guide/writing-blocks)
+- [Type checking](https://vue-tailwind-block.netlify.app/guide/type-checking)
+- [Linting](https://vue-tailwind-block.netlify.app/guide/linting)
+- [Core API](https://vue-tailwind-block.netlify.app/api/core)

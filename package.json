@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind-block",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Keep long Tailwind utility classes out of your Vue templates with a typed <tailwind> YAML block for Vite and Nuxt.",
   "files": [
     "dist"
@@ -15,8 +15,26 @@
     "pretest": "pnpm build",
     "docs:dev": "pnpm -C docs dev"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "vue",
+    "vue3",
+    "tailwind",
+    "tailwindcss",
+    "nuxt",
+    "nuxt-module",
+    "vite",
+    "yaml",
+    "unplugin"
+  ],
+  "author": "Ekure Edem <61796351+astraldev@users.noreply.github.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astraldev/vue-tailwind-block.git"
+  },
+  "homepage": "https://vue-tailwind-block.netlify.app",
+  "bugs": {
+    "url": "https://github.com/astraldev/vue-tailwind-block/issues"
+  },
   "license": "ISC",
   "devEngines": {
     "packageManager": {
