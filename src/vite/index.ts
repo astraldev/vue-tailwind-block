@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { TailwindBlockOptions } from '~/_utils'
+import type { TailwindBlockOptions } from '~/core/options'
 import { unplugin } from './unplugin'
 
 /**
@@ -10,4 +10,4 @@ const tailwindBlockVitePlugin = unplugin.vite as unknown as (options?: TailwindB
 
 export default tailwindBlockVitePlugin
 export { transformSfc } from './transform-sfc'
-export type { TailwindBlockOptions } from '~/_utils'
+export type { TailwindBlockOptions } from '~/core/options'

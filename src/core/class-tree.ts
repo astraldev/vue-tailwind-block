@@ -5,7 +5,7 @@ export interface ClassTree {
 
 export function buildClassTree(parsedYaml: unknown): ClassTree {
   if (!isPlainObject(parsedYaml)) {
-    throw new Error(describeInvalidValue([], parsedYaml))
+    throw new InvalidClassValueError([], parsedYaml)
   }
 
   return buildClassGroup(parsedYaml, [])
@@ -37,13 +37,13 @@ function buildClassValue(value: unknown, pathToValue: string[]): string | ClassT
     return buildClassGroup(value, pathToValue)
   }
 
-  throw new Error(describeInvalidValue(pathToValue, value))
+  throw new InvalidClassValueError(pathToValue, value)
 }
 
 function mergeClassList(classList: unknown[], pathToList: string[]): string {
   const classEntries = classList.map((entry) => {
     if (typeof entry !== 'string') {
-      throw new Error(describeInvalidValue(pathToList, entry))
+      throw new InvalidClassValueError(pathToList, entry)
     }
     return entry.trim()
   })
@@ -55,7 +55,10 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-function describeInvalidValue(pathToValue: string[], value: unknown): string {
-  const location = pathToValue.length > 0 ? pathToValue.join('.') : 'the top level'
-  return `Expected a class string, list or group at ${location}, got ${JSON.stringify(value)}`
+export class InvalidClassValueError extends Error {
+  constructor(pathToValue: string[], value: unknown) {
+    const location = pathToValue.length > 0 ? pathToValue.join('.') : 'the top level'
+    super(`Expected a class string, list or group at ${location}, got ${JSON.stringify(value)}`)
+    this.name = 'InvalidClassValueError'
+  }
 }

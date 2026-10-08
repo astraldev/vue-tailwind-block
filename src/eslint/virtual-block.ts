@@ -1,4 +1,5 @@
-import { findScalarLines, locateEntryText } from '~/_utils'
+import { findScalarLines, locateEntryText } from '~/core/scalars'
+import { findLineStarts } from '~/core/text'
 
 /** A callee that eslint-plugin-better-tailwindcss and eslint-plugin-tailwindcss both lint by default. */
 export const VIRTUAL_CALLEE = 'clsx'
@@ -104,16 +105,4 @@ function pickQuote(entryText: string): string | undefined {
   }
 
   return QUOTE_CHARACTERS.find((quote) => !entryText.includes(quote))
-}
-
-export function findLineStarts(text: string): number[] {
-  const lineStarts = [0]
-
-  for (let index = 0; index < text.length; index++) {
-    if (text[index] === '\n') {
-      lineStarts.push(index + 1)
-    }
-  }
-
-  return lineStarts
 }

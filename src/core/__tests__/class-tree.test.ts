@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildClassTree } from '~/_utils/classes'
+import { buildClassTree } from '~/core/class-tree'
 
 describe('buildClassTree', () => {
   it('merges each class list into a single space separated string', () => {

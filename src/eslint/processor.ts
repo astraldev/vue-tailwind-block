@@ -1,10 +1,10 @@
 import type { Linter } from 'eslint'
 import { parse } from 'vue/compiler-sfc'
+import { findTailwindBlocks, mayContainTailwindBlock } from '~/core/blocks'
+import { PACKAGE_NAME } from '~/core/constants'
 import { mapBlockMessages } from './map-messages'
 import { buildVirtualBlock } from './virtual-block'
 import type { VirtualBlock } from './virtual-block'
-
-const TAILWIND_BLOCK_TYPE = 'tailwind'
 
 /** Virtual files end up as `<file>.vue/<index>_tailwind-block.js`. */
 export const VIRTUAL_FILE_NAME = 'tailwind-block.js'
@@ -37,12 +37,12 @@ export function createProcessor(innerProcessor?: Linter.Processor, options: Tail
   const reportedRules = options.rules ?? DEFAULT_REPORTED_RULES
 
   return {
-    meta: { name: 'vue-tailwind-block/tailwind-block' },
+    meta: { name: `${PACKAGE_NAME}/tailwind-block` },
     supportsAutofix: innerProcessor?.supportsAutofix ?? true,
 
     preprocess(sourceText, filename) {
       const innerBlocks = innerProcessor?.preprocess?.(sourceText, filename) ?? [sourceText]
-      const virtualBlocks = findTailwindBlocks(sourceText).map((block) => buildVirtualBlock(block.content, block.contentStart))
+      const virtualBlocks = findBlockContents(sourceText).map((block) => buildVirtualBlock(block.content, block.contentStart))
 
       processedFiles.set(filename, { sourceText, innerBlockCount: innerBlocks.length, virtualBlocks })
 
@@ -81,12 +81,10 @@ function isReported(message: Linter.LintMessage, reportedRules: (string | RegExp
   return reportedRules.some((reportedRule) => (typeof reportedRule === 'string' ? reportedRule === ruleId : reportedRule.test(ruleId)))
 }
 
-function findTailwindBlocks(sourceText: string): { content: string; contentStart: number }[] {
-  if (!sourceText.includes(`<${TAILWIND_BLOCK_TYPE}`)) {
+function findBlockContents(sourceText: string): { content: string; contentStart: number }[] {
+  if (!mayContainTailwindBlock(sourceText)) {
     return []
   }
 
-  return parse(sourceText)
-    .descriptor.customBlocks.filter((block) => block.type === TAILWIND_BLOCK_TYPE)
-    .map((block) => ({ content: block.content, contentStart: block.loc.start.offset }))
+  return findTailwindBlocks(parse(sourceText).descriptor.customBlocks).map((block) => ({ content: block.content, contentStart: block.loc.start.offset }))
 }

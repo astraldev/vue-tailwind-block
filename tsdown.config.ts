@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsdown'
 
 // types of these ship their own CommonJS .d.ts that cannot be bundled
-const neverBundle = [/^(vite|vue|@vue|@volar|typescript|eslint|eslint-plugin-vue|postcss|rollup|rolldown|esbuild|webpack|@rspack|unplugin)(\/|$)/]
+const neverBundle = [/^(vite|vue|@vue|@volar|typescript|eslint|eslint-plugin-vue|@nuxt|postcss|rollup|rolldown|esbuild|webpack|@rspack|unplugin)(\/|$)/]
 
 export default defineConfig([
   {

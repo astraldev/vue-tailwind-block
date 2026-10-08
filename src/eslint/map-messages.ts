@@ -1,5 +1,5 @@
 import type { Linter } from 'eslint'
-import { findLineStarts } from './virtual-block'
+import { findLineStarts, lineIndexAt } from '~/core/text'
 import type { EntrySegment, VirtualBlock } from './virtual-block'
 
 type LintFix = NonNullable<Linter.LintMessage['fix']>
@@ -38,7 +38,7 @@ function mapPosition(message: Linter.LintMessage, virtualBlock: VirtualBlock, so
 
 function toSourcePosition(virtualOffset: number, virtualBlock: VirtualBlock, sourceLineStarts: number[]) {
   const sourceOffset = toSourceOffset(virtualOffset, virtualBlock)
-  const lineIndex = findLastIndex(sourceLineStarts, (lineStart) => lineStart <= sourceOffset)
+  const lineIndex = lineIndexAt(sourceLineStarts, sourceOffset)
 
   return { line: lineIndex + 1, column: sourceOffset - sourceLineStarts[lineIndex] + 1 }
 }
@@ -63,7 +63,7 @@ function toSourceOffset(virtualOffset: number, virtualBlock: VirtualBlock): numb
 }
 
 function findSegmentOnSameLine(virtualOffset: number, virtualBlock: VirtualBlock): EntrySegment | undefined {
-  const lineIndex = findLastIndex(virtualBlock.virtualLineStarts, (lineStart) => lineStart <= virtualOffset)
+  const lineIndex = lineIndexAt(virtualBlock.virtualLineStarts, virtualOffset)
   const lineStart = virtualBlock.virtualLineStarts[lineIndex]
   const nextLineStart = virtualBlock.virtualLineStarts[lineIndex + 1] ?? Number.POSITIVE_INFINITY
 
@@ -129,14 +129,4 @@ function buildLineBreakFix(wrappedText: string, segment: EntrySegment): LintFix 
   const listText = `${segment.prefix.trimEnd()}\n${entryIndentation}- ${yamlQuote}${lines.join(nextEntrySeparator)}`
 
   return { range: [segment.lineStart, entryEnd], text: listText }
-}
-
-function findLastIndex<Item>(items: Item[], matches: (item: Item) => boolean): number {
-  for (let index = items.length - 1; index >= 0; index--) {
-    if (matches(items[index])) {
-      return index
-    }
-  }
-
-  return 0
 }

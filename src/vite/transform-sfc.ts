@@ -2,11 +2,12 @@ import MagicString from 'magic-string'
 import type { SourceMap } from 'magic-string'
 import { parse } from 'vue/compiler-sfc'
 import type { SFCBlock, SFCScriptBlock } from 'vue/compiler-sfc'
-import { parseYaml } from '~/core'
-import { buildClassTree, DEFAULT_VARIABLE_NAME, normalizeScalarsToStrings } from '~/_utils'
-import type { TailwindBlockOptions } from '~/_utils'
-
-const TAILWIND_BLOCK_TYPE = 'tailwind'
+import { findTailwindBlocks, mayContainTailwindBlock } from '~/core/blocks'
+import { compileBlockOrThrow } from '~/core/compile'
+import { BLOCK_TYPE } from '~/core/constants'
+import { declareClasses } from '~/core/declaration'
+import { resolveOptions } from '~/core/options'
+import type { TailwindBlockOptions } from '~/core/options'
 
 interface BlockRange {
   start: number
@@ -27,19 +28,24 @@ export function transformSfc(
   sfcSource: string,
   options: TailwindBlockOptions = {},
 ): TransformedSfc | undefined {
+  if (!mayContainTailwindBlock(sfcSource)) {
+    return undefined
+  }
+
   const { descriptor } = parse(sfcSource)
-  const tailwindBlocks = descriptor.customBlocks.filter((block) => block.type === TAILWIND_BLOCK_TYPE)
+  const tailwindBlocks = findTailwindBlocks(descriptor.customBlocks)
 
   if (tailwindBlocks.length === 0) {
     return undefined
   }
 
   if (tailwindBlocks.length > 1) {
-    throw new Error(`Expected one <${TAILWIND_BLOCK_TYPE}> block per file, found ${tailwindBlocks.length}`)
+    throw new Error(`Expected one <${BLOCK_TYPE}> block per file, found ${tailwindBlocks.length}`)
   }
 
   const [tailwindBlock] = tailwindBlocks
-  const declaration = buildDeclaration(tailwindBlock.content, options)
+  const { variableName } = resolveOptions(options)
+  const declaration = declareClasses(variableName, compileBlockOrThrow(tailwindBlock.content))
   const blockRange = findBlockRange(sfcSource, tailwindBlock)
   const editableSource = new MagicString(sfcSource)
 
@@ -52,18 +58,10 @@ export function transformSfc(
   return { code: editableSource.toString(), map: editableSource.generateMap({ hires: true }) }
 }
 
-function buildDeclaration(blockContent: string, options: TailwindBlockOptions): string {
-  const variableName = options.variableName ?? DEFAULT_VARIABLE_NAME
-  const stringOnlyYaml = normalizeScalarsToStrings(blockContent)
-  const classTree = buildClassTree(parseYaml(stringOnlyYaml, { strict: true }))
-
-  return `const ${variableName} = ${JSON.stringify(classTree)};`
-}
-
 /** The block's content range is known, so walk outwards to the surrounding tags. */
 function findBlockRange(sfcSource: string, tailwindBlock: SFCBlock): BlockRange {
-  const openingTagStart = sfcSource.lastIndexOf(`<${TAILWIND_BLOCK_TYPE}`, tailwindBlock.loc.start.offset)
-  const closingTagStart = sfcSource.indexOf(`</${TAILWIND_BLOCK_TYPE}`, tailwindBlock.loc.end.offset)
+  const openingTagStart = sfcSource.lastIndexOf(`<${BLOCK_TYPE}`, tailwindBlock.loc.start.offset)
+  const closingTagStart = sfcSource.indexOf(`</${BLOCK_TYPE}`, tailwindBlock.loc.end.offset)
   const closingTagEnd = sfcSource.indexOf('>', closingTagStart) + 1
 
   return { start: openingTagStart, end: closingTagEnd }

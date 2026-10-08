@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeScalarsToStrings } from '~/_utils/normalize'
+import { normalizeScalarsToStrings } from '~/core/scalars'
 
 describe('normalizeScalarsToStrings', () => {
   it('quotes list entries and mapping values, including ones yaml would reject', () => {

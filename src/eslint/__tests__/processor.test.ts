@@ -4,8 +4,7 @@ import { ESLint } from 'eslint'
 import pluginVue from 'eslint-plugin-vue'
 import vueParser from 'vue-eslint-parser'
 import { describe, expect, it } from 'vitest'
-import { parseYaml } from '~/core'
-import { buildClassTree, normalizeScalarsToStrings } from '~/_utils'
+import { compileBlockOrThrow } from '~/core'
 import tailwindBlock from '~/eslint'
 
 const fixtureDirectory = fileURLToPath(new URL('../../../test-fixtures/eslint', import.meta.url))
@@ -103,7 +102,7 @@ const longEntriesFile = [
 /** The classes each slot ends up with, whatever order and line layout the yaml uses. */
 function compileSlots(sfcSource: string): Record<string, string[]> {
   const yamlSource = sfcSource.slice(sfcSource.indexOf('<tailwind lang="yaml">') + 22, sfcSource.indexOf('</tailwind>'))
-  const { base } = buildClassTree(parseYaml(normalizeScalarsToStrings(yamlSource))) as Record<string, Record<string, string>>
+  const { base } = compileBlockOrThrow(yamlSource) as Record<string, Record<string, string>>
 
   return Object.fromEntries(Object.entries(base).map(([slot, classes]) => [slot, classes.split(' ').sort()]))
 }
