@@ -1,0 +1,6 @@
+{
+    "js/ts.tsdk.path": "node_modules/typescript/lib",
+    "tailwindCSS.experimental.classRegex": [
+        ["<tailwind[^>]*>([\\s\\S]*?)</tailwind>", "(?:^|\\n)[ \\t]*(?:-[ \\t]+|[^\\s:#\"'][^:\\n]*:[ \\t]+)[\"']?([^\\n#\"']+)"]
+    ]
+}

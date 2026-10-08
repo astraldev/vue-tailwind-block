@@ -73,7 +73,6 @@ locally.
 
 - [Introduction](docs/content/1.getting-started/1.introduction.md)
 - [Installation](docs/content/1.getting-started/2.installation.md)
-- [Configuration](docs/content/1.getting-started/3.configuration.md)
 - [Writing blocks](docs/content/2.guide/1.writing-blocks.md)
 - [Type checking](docs/content/2.guide/2.type-checking.md)
 - [Linting](docs/content/2.guide/3.linting.md)
