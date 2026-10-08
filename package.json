@@ -35,7 +35,10 @@
   "bugs": {
     "url": "https://github.com/astraldev/vue-tailwind-block/issues"
   },
-  "license": "ISC",
+  "license": "MIT",
+  "publishConfig": {
+    "provenance": true
+  },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
