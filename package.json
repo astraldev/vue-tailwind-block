@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:unit": "vitest run --project unit",
     "test:integration": "pnpm build && vitest run --project integration",
-    "pretest": "pnpm build"
+    "pretest": "pnpm build",
+    "docs:dev": "pnpm -C docs dev"
   },
   "keywords": [],
   "author": "",

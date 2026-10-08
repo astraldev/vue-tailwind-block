@@ -1,0 +1,17 @@
+{
+  "name": "vue-tailwind-block-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev --extends docus",
+    "build": "nuxt build --extends docus",
+    "generate": "nuxt generate --extends docus",
+    "preview": "nuxt preview --extends docus"
+  },
+  "dependencies": {
+    "better-sqlite3": "catalog:docs",
+    "docus": "catalog:docs",
+    "nuxt": "catalog:nuxt",
+    "vue-tailwind-block": "workspace:*"
+  }
+}

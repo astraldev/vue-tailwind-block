@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@source "../../components";
+@source "../../pages";
+
+@theme static {
+  --font-sans: 'Geom', sans-serif;
+}
