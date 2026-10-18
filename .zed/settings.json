@@ -1,0 +1,13 @@
+{
+  "lsp": {
+    "tailwindcss-language-server": {
+      "settings": {
+        "experimental": {
+          "classRegex": [
+            ["<tailwind[^>]*>([\\s\\S]*?)</tailwind>", "(?:^|\\n)[ \\t]*(?:-[ \\t]+|[^\\s:#\"'][^:\\n]*:[ \\t]+)[\"']?([^\\n#\"']+)"]
+          ]
+        }
+      }
+    }
+  }
+}
